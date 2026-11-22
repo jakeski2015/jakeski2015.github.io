@@ -1,0 +1,10 @@
+---
+import Section from "./Section.astro";
+import { about } from "../data/resume";
+---
+
+<Section id="about" title="About">
+  <div class="space-y-4 leading-relaxed text-zinc-700">
+    {about.map((p) => <p>{p}</p>)}
+  </div>
+</Section>

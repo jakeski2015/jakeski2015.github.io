@@ -1,0 +1,30 @@
+---
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import { profile } from "../data/resume";
+
+const links = [
+  { href: `mailto:${profile.email}`, label: profile.email, icon: "mail" as const },
+  { href: profile.linkedin, label: "linkedin.com/in/jake-jendzurski", icon: "linkedin" as const },
+  { href: profile.github, label: "github.com/jakeski2015", icon: "github" as const },
+];
+---
+
+<Section id="contact" title="Contact">
+  <p class="text-2xl font-semibold tracking-tight">Let's talk.</p>
+  <p class="mt-2 text-zinc-600">Email is the best way to reach me.</p>
+  <ul class="mt-6 space-y-3">
+    {links.map((l) => (
+      <li>
+        <a
+          href={l.href}
+          {...(l.href.startsWith("http") ? { target: "_blank", rel: "noopener" } : { "data-copy-email": profile.email })}
+          class="inline-flex items-center gap-3 text-zinc-700 transition-colors hover:text-accent"
+        >
+          <Icon name={l.icon} class="size-5 text-zinc-400" />
+          <span data-label>{l.label}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</Section>

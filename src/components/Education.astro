@@ -1,0 +1,16 @@
+---
+import Section from "./Section.astro";
+import { education as edu } from "../data/resume";
+---
+
+<Section id="education" title="Education">
+  <div class="flex flex-col justify-between gap-1 sm:flex-row sm:items-baseline">
+    <h3 class="text-lg font-semibold">{edu.school}</h3>
+    <span class="text-sm text-zinc-500">{edu.dates}</span>
+  </div>
+  <p class="text-sm text-zinc-500">{edu.degree} · GPA {edu.gpa}</p>
+  <p class="mt-3 text-zinc-700">
+    <span class="text-zinc-500">Coursework:</span>{" "}
+    {edu.courses.join(", ")}
+  </p>
+</Section>

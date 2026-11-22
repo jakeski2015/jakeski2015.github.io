@@ -1,0 +1,68 @@
+---
+import "@fontsource-variable/inter";
+import "../styles/global.css";
+import { profile } from "../data/resume";
+
+const title = `${profile.name} · Software Engineer`;
+const description = `${profile.name}, Computer Science at UMD. ${profile.tagline} Previously at Amazon, Bloomberg, Snap, and Forkcast.`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Link previews (LinkedIn, Slack, iMessage, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+
+    <script is:inline>document.documentElement.classList.add("js");</script>
+  </head>
+  <body class="bg-white font-sans text-zinc-900 antialiased selection:bg-blue-100">
+    <slot />
+
+    <script>
+      // Fade sections in as they scroll into view.
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+      // Email links: copy the address on click (mailto: does nothing for people
+      // without a desktop mail app), and still let mailto: open one if present.
+      document.querySelectorAll<HTMLElement>("[data-copy-email]").forEach((link) => {
+        const label = link.querySelector<HTMLElement>("[data-label]");
+        const original = label?.textContent ?? "";
+        let timer: number | undefined;
+        link.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(link.dataset.copyEmail!);
+          } catch {
+            return; // clipboard blocked; mailto: still fires
+          }
+          if (!label) return;
+          label.textContent = "Email copied!";
+          clearTimeout(timer);
+          timer = window.setTimeout(() => (label.textContent = original), 2000);
+        });
+      });
+    </script>
+  </body>
+</html>

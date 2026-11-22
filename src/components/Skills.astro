@@ -1,0 +1,19 @@
+---
+import Section from "./Section.astro";
+import { skills } from "../data/resume";
+---
+
+<Section id="skills" title="Skills">
+  <dl class="space-y-5">
+    {skills.map((group) => (
+      <div class="grid gap-2 sm:grid-cols-[10rem_1fr]">
+        <dt class="text-sm font-medium text-zinc-500">{group.label}</dt>
+        <dd class="flex flex-wrap gap-2">
+          {group.items.map((s) => (
+            <span class="rounded-md border border-zinc-200 px-2.5 py-0.5 text-sm text-zinc-700">{s}</span>
+          ))}
+        </dd>
+      </div>
+    ))}
+  </dl>
+</Section>
